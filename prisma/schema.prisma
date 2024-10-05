@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+// datasource db {
+//   provider = "sqlite"
+//   url      = "file:./dev.db"
+// }
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id         Int      @id @default(sequence())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  Membership    Membership[] @relation("membership-user")
+}
+
+model Cluster {
+  id          String       @id @default(uuid())
+  shortId     String
+  name        String
+  template    String?
+  outputType  String?
+  description String       @default("")
+  updatedAt   DateTime     @updatedAt
+  createAt    DateTime     @default(now())
+  Membership  Membership[] @relation("membership-cluster")
+  logs        logs[]       @relation("cluster-logs")
+  apiKey      apiKey[]     @relation("cluster-key")
+}
+
+model logs {
+  id        String       @id @default(uuid())
+  date      String
+  value     Int          @default(1)
+  clusterId String
+  cluster   Cluster      @relation("cluster-logs", references: [id], fields: [clusterId], onDelete: Cascade)
+  apikeyId  String
+  apiKey    apiKey?      @relation("log-key", fields: [apikeyId], references: [id], onDelete: Cascade)
+  context   logContext[] @relation("log-context")
+  updatedAt DateTime     @updatedAt
+  createAt  DateTime     @default(now())
+}
+
+model logContext {
+  id        String   @id @default(uuid())
+  value     String
+  updatedAt DateTime @updatedAt
+  createAt  DateTime @default(now())
+  logs      logs?    @relation("log-context", fields: [logsId], references: [id])
+  logsId    String?
+}
+
+model apiKey {
+  id        String   @id @default(uuid())
+  name      String
+  clusterId String
+  cluster   Cluster  @relation("cluster-key", references: [id], fields: [clusterId], onDelete: Cascade)
+  logs      logs[]   @relation("log-key")
+  updatedAt DateTime @updatedAt
+  createAt  DateTime @default(now())
+}
+
+model Membership {
+  id        String   @id @default(uuid())
+  role      String
+  userId    String
+  user      User     @relation("membership-user", references: [id], fields: [userId])
+  clusterId String
+  cluster   Cluster  @relation("membership-cluster", references: [id], fields: [clusterId], onDelete: Cascade)
+  updatedAt DateTime @updatedAt
+  createAt  DateTime @default(now())
+}

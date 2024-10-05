@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Nunito" !important;
+  background-size: 20px 20px;
+  /* background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px); */
+
+  background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1.5px, transparent 0);
+  background-size: 20px 20px;
+  background-position: -19px -19px;
+
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px !important;
+  /* adjust as needed */
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  /* set to desired background color for the scrollbar holder */
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(271 58% 61%);
+  /* set to desired gradient for the scrollbar thumb */
+  border-radius: 6px;
+  /* adjust as needed */
+}
+
+@layer base {
+  :root {
+    --gradient: var(--gradientBase);
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: var(--primaryBase);
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* --backgroundBase: 184 65% 2.8%;
+    --primaryBase: 184 100% 35%;
+    --gradientBase: linear-gradient(to top left, #00b09b, #96c93d);
+    --foregroundBase: 184 10% 96.75%; */
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+    --gradient: var(--gradientBase);
+    --background: var(--backgroundBase);
+    --foreground: var(--foregroundBase);
+    --muted: 184 50% 10.5%;
+    --muted-foreground: 184 10% 53.5%;
+    --popover: 184 45% 4.55%;
+    --popover-foreground: var(--foregroundBase);
+    --card: 184 45% 4.55%;
+    --card-foreground: var(--foregroundBase);
+    --border: 184 50% 10.5%;
+    --input: 184 50% 10.5%;
+    --primary: var(--primaryBase);
+    --primary-foreground: var(--foregroundBase);
+    --secondary: 184 50% 10.5%;
+    --secondary-foreground: var(--foregroundBase);
+    --accent: 184 50% 10.5%;
+    --accent-foreground: var(--foregroundBase);
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: var(--foregroundBase);
+    --color-warning-dark: #ff0000 !important
+  }
+}
+
+:root {
+  --primaryBase: 271 58% 61%;
+  --backgroundBase: 203 65% 4%;
+  --foregroundBase: 184 10% 96.75%;
+}
