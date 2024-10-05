@@ -34,7 +34,7 @@ Set up your environment variables by editing the `.env` file. You'll need to pro
 
 The Firebase configuration can be found and set in:
 ```
-C:\Users\AZIZ\Documents\pro\Type Ai\lib\firebase\connection.js
+C:\...\type-ai-open\lib\firebase\connection.js
 ```
 
 ### 3. Install Dependencies
